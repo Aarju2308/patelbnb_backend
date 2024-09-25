@@ -1,0 +1,18 @@
+logging:
+  level:
+    ROOT: info
+    org.hibernate.SQL: INFO
+    com.patelbnb:: INFO
+
+spring:
+  datasource:
+    url: jdbc:postgresql://${POSTGRESS_URL}:${POSTGRESS_PORT}/${POSTGRESS_DBNAME}
+    username: ${POSTGRESS_USERNAME}
+    password: ${POSTGRESS_PASSWORD}
+  jpa:
+    properties:
+      hibernate:
+        default_schema: patelbnb
+  liquibase:
+    contexts: prod
+    default-schema: patelbnb
