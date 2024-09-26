@@ -22,6 +22,10 @@
 
 ---
 
+[Frontend Project Documentation](https://github.com/Aarju2308/patenbnb_frontend) includes detailed information on the frontend's Technologies, Installation and Project Structure.
+
+---
+
 ## Installation
 
 ### Prerequisites
