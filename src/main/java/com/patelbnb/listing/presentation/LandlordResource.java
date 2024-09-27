@@ -129,19 +129,16 @@ public class LandlordResource {
     @GetMapping(value = "/get-single")
     @PreAuthorize("hasAnyRole('"+ SecurityUtils.ROLE_LANDLORD +"')")
     public ResponseEntity<EditListingDTO> getSingle(@RequestParam("publicId") String publicId) {
-        System.out.println("Received publicId: " + publicId);
         UUID uuid;
         try {
             uuid = UUID.fromString(publicId);
         } catch (IllegalArgumentException e) {
-            System.out.println("Invalid UUID format.");
             return ResponseEntity.badRequest().build(); // Return 400 Bad Request if publicId is not a valid UUID
         }
 
         ReadUserDTO connectedUser = userService.getAuthenticatedUserFromSpringSecurity();
         EditListingDTO singleListing = landlordService.getListing(uuid, connectedUser);
         if (!singleListing.getLandlordPublicId().equals(connectedUser.publicId())) {
-            System.out.println("Unauthorized access attempt.");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
         return ResponseEntity.ok(singleListing);

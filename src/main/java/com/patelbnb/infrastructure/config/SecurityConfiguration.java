@@ -1,5 +1,6 @@
 package com.patelbnb.infrastructure.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -20,11 +21,16 @@ import java.util.Set;
 @EnableMethodSecurity
 public class SecurityConfiguration {
 
+    @Value("${spring.profiles.active}")
+    private String activeProfile;
+
     @Bean
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
         CsrfTokenRequestAttributeHandler requestHandler = new CsrfTokenRequestAttributeHandler();
         requestHandler.setCsrfRequestAttributeName(null);
-        http.authorizeHttpRequests(authorize -> authorize
+        http
+                .cors(Customizer.withDefaults())
+                .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.GET, "api/tenant-listing/get-all-by-category").permitAll()
                         .requestMatchers(HttpMethod.GET, "api/tenant-listing/get-one").permitAll()
                         .requestMatchers(HttpMethod.POST, "api/tenant-listing/search").permitAll()
@@ -33,12 +39,13 @@ public class SecurityConfiguration {
                         .anyRequest()
                         .authenticated())
                 .csrf(csrf -> csrf
-                        .ignoringRequestMatchers("/api/**")
                         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                         .csrfTokenRequestHandler(requestHandler))
-                .oauth2Login(Customizer.withDefaults())
-                .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
-                .oauth2Client(Customizer.withDefaults());
+                .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()));
+
+        if (activeProfile.equals("prod")){
+            http.requiresChannel(channel -> channel.anyRequest().requiresSecure());
+        }
 
         return http.build();
     }

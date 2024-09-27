@@ -29,22 +29,12 @@ public class SecurityUtils {
             username = ((String) attributes.get("preferred_username")).toLowerCase();
         }
 
-        if (attributes.get("given_name") != null) {
-            user.setFirstName(((String) attributes.get("given_name")));
-        } else if ((attributes.get("nickname") != null)) {
+        if ((attributes.get("nickname") != null)) {
             user.setFirstName(((String) attributes.get("nickname")));
         }
 
-        if (attributes.get("family_name") != null) {
-            user.setLastName(((String) attributes.get("family_name")));
-        }
-
-        if (attributes.get("email") != null) {
-            user.setEmail(((String) attributes.get("email")));
-        } else if (sub.contains("|") && (username != null && username.contains("@"))) {
-            user.setEmail(username);
-        } else {
-            user.setEmail(sub);
+        if (attributes.get("name") != null) {
+            user.setEmail(((String) attributes.get("name")));
         }
 
         if (attributes.get("picture") != null) {
@@ -53,7 +43,6 @@ public class SecurityUtils {
 
         if(attributes.get(CLAIMS_NAMESPACE) != null) {
             List<String> authoritiesRaw = (List<String>) attributes.get(CLAIMS_NAMESPACE);
-            System.out.println("Authorities : " + authoritiesRaw);
             Set<Authority> authorities = authoritiesRaw.stream()
                     .map(authority -> {
                         Authority auth = new Authority();
@@ -62,8 +51,6 @@ public class SecurityUtils {
                     }).collect(Collectors.toSet());
             user.setAuthorities(authorities);
         }
-        System.out.println("User : " + user);
-        System.out.println("User Authorities : " + user.getAuthorities());
         return user;
 
     }

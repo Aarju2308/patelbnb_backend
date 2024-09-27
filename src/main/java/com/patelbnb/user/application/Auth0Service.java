@@ -5,6 +5,7 @@ import com.auth0.client.mgmt.ManagementAPI;
 import com.auth0.client.mgmt.filter.FieldsFilter;
 import com.auth0.exception.Auth0Exception;
 import com.auth0.json.auth.TokenHolder;
+import com.auth0.json.auth.UserInfo;
 import com.auth0.json.mgmt.users.User;
 import com.auth0.net.Response;
 import com.auth0.net.TokenRequest;
@@ -12,6 +13,7 @@ import com.patelbnb.infrastructure.config.SecurityUtils;
 import com.patelbnb.user.application.dto.ReadUserDTO;
 import jakarta.security.auth.message.AuthException;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -57,5 +59,14 @@ public class Auth0Service {
         TokenRequest request = authAPI.requestToken(domain + "api/v2/");
         TokenHolder holder = request.execute().getBody();
         return holder.getAccessToken();
+    }
+
+    public UserInfo getUserInfo(Jwt jwtToken){
+        AuthAPI authApi = AuthAPI.newBuilder(domain, clientId, clientSecret).build();
+        try{
+            return authApi.userInfo(jwtToken.getTokenValue()).execute().getBody();
+        }catch(Auth0Exception e){
+            throw new UserException(String.format("Cannot find user with public id %s", jwtToken.getTokenValue()));
+        }
     }
 }

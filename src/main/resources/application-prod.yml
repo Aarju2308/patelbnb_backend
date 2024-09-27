@@ -2,7 +2,7 @@ logging:
   level:
     ROOT: info
     org.hibernate.SQL: INFO
-    com.patelbnb:: INFO
+    com.patelbnb: INFO
 
 spring:
   datasource:
@@ -16,3 +16,15 @@ spring:
   liquibase:
     contexts: prod
     default-schema: patelbnb
+
+server:
+  tomcat:
+    remoteip:
+      protocol-header: x-forwarded-proto
+      remote-ip-header: x-forwarded-for
+
+application:
+  cors:
+    allowed-origins: "https://patelbnb.work.gd"
+  auth0:
+    role-landlord-id:${AUTH0_ROLE_LANDLORD_ID}
