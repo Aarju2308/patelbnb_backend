@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.aarjupatel</groupId>
 	<artifactId>patelbnb-backend</artifactId>
-	<version>0.0.3</version>
+	<version>0.0.4</version>
 	<name>patelbnb-backend</name>
 	<description>PatelBNB API</description>
 	<properties>
