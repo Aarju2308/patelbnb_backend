@@ -25,6 +25,6 @@ server:
 
 application:
   cors:
-    allowed-origins: "https://patelbnbapi.publicvm.com"
+    allowed-origins: "https://patelbnb.line.pm/"
   auth0:
     role-landlord-id: ${AUTH0_ROLE_LANDLORD_ID}
