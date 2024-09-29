@@ -6,9 +6,9 @@ logging:
 
 spring:
   datasource:
-    url: jdbc:postgresql://${POSTGRESS_URL}:${POSTGRESS_PORT}/${POSTGRESS_DBNAME}
-    username: ${POSTGRESS_USERNAME}
-    password: ${POSTGRESS_PASSWORD}
+    url: jdbc:postgresql://${POSTGRES_URL}:5432/${POSTGRES_DB}
+    username: ${POSTGRES_USERNAME}
+    password: ${POSTGRES_PASSWORD}
   jpa:
     properties:
       hibernate:
@@ -25,6 +25,6 @@ server:
 
 application:
   cors:
-    allowed-origins: "https://patelbnb.work.gd"
+    allowed-origins: "https://patelbnbapi.work.gd"
   auth0:
     role-landlord-id:${AUTH0_ROLE_LANDLORD_ID}
