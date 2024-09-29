@@ -37,7 +37,7 @@ Make sure you have the following installed:
 
 ### Clone the Repository
 ```bash
-git clone https://github.com/username/PatelBNB.git
+git clone https://github.com/Aarju2308/patelbnb_backend
 cd PatelBNB
 ```
 
